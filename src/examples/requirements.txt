@@ -1,0 +1,2 @@
+-i https://voicevox.github.io/voicevox_core/
+voicevox_core==0.15.0+cpu
