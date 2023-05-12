@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  font-family: "Rounded M+ 1p Unhinted", "Rounded M+ 1p";
+  font-family: "Rounded M+ 1p Unhinted", "Rounded M+ 1p", sans-serif;
 }
 
 body {
