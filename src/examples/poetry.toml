@@ -1,0 +1,9 @@
+[tool.poetry.dependencies]
+python = "^3.9"
+voicevox_core = { version = "^!{version}", source = "voicevox_core" }
+
+[[tool.poetry.source]]
+name = "voicevox_core"
+url = "https://voicevox.github.io/voicevox_core/"
+default = false
+secondary = false
