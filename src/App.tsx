@@ -16,7 +16,7 @@ function App() {
       <header className="bg-primary p-4 text-xl font-bold text-white">
         VOICEVOX Core wrapper for Python
       </header>
-      <main className="flex-grow p-4 flex flex-col mx-auto gap-2 w-[1024px]">
+      <main className="flex-grow p-4 flex flex-col mx-auto gap-2 max-w-[1024px]">
         voicevox_core ライブラリは Python のバインディングを提供しています。
         <Prism language="python" source={exampleTts} />
         <h2 className="text-2xl font-bold">インストール</h2>
@@ -30,7 +30,7 @@ function App() {
           <TabPanel>
             <Prism
               language="bash"
-              source={`pip install --extra-index-url https://voicevox.github.io/voicevox_core/ voicevox_core==${version}`}
+              source={`pip install --extra-index-url https://sevenc7c.com/vv_core_registry voicevox_core~=${version}`}
             />
           </TabPanel>
           <TabPanel>

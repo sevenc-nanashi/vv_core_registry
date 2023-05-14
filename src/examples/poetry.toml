@@ -4,6 +4,6 @@ voicevox_core = { version = "^!{version}", source = "voicevox_core" }
 
 [[tool.poetry.source]]
 name = "voicevox_core"
-url = "https://voicevox.github.io/voicevox_core/"
+url = "https://sevenc7c.com/vv_core_registry"
 default = false
 secondary = false
