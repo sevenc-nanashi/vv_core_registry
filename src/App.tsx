@@ -8,7 +8,7 @@ import "prismjs/components/prism-toml";
 import "prismjs/components/prism-bash";
 import "react-tabs/style/react-tabs.css";
 
-const version = "0.14.3";
+const version = "0.14.4";
 
 function App() {
   return (
