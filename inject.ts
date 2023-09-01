@@ -33,8 +33,8 @@ import { Octokit } from "octokit";
       release.assets
         .filter((asset) => asset.name.endsWith(".whl"))
         .map((asset) => {
-          const match = asset.name.match(/\+(.+?)-/);
-          if (!match) throw new Error("invalid asset name");
+          const match = asset.name.match(/core.+[+_]([a-z]+?)-/);
+          if (!match) throw new Error(`invalid asset name: ${asset.name}`);
           return match[1];
         })
     )
