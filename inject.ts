@@ -13,7 +13,6 @@ import { Octokit } from "octokit";
 
   const releasesToList = releases.data.filter(
     (release) =>
-      !release.prerelease &&
       !release.draft &&
       release.assets.find((asset) => asset.name.endsWith(".whl"))
   );
