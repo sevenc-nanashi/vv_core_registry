@@ -58,7 +58,7 @@ import { Octokit } from "octokit";
   while (wheels.length > 0) {
     await Promise.all(
       wheels.splice(0, 5).map(async (wheel) => {
-        const match = wheel[1].match(/\+(.+?)-/);
+        const match = wheel[1].match(/core.+[+_]([a-z]+?)-/);
         if (!match) throw new Error("invalid asset name");
         const variant = match[1];
         const variantUrls = variantAssets.get(variant);
