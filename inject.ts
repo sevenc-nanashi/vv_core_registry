@@ -111,7 +111,7 @@ const getPythonPackages = async (releases: Release[]) => {
           await fs.promises.writeFile(`./cache/${name}.sha256`, hash, "utf-8");
           metadataText = await new Promise<string>((resolve) => {
             const strippedName = name.match(/^([^-]+-[^-]+)-.+\.whl$/)?.[1];
-            if (!strippedName) throw new Error("invalid wheel");
+            if (!strippedName) throw new Error(`invalid wheel name: ${name}`);
 
             const metadataPath = `${strippedName}.dist-info/METADATA`;
             const proc = spawn("unzip", [
