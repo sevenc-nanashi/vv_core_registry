@@ -133,7 +133,7 @@ const getPythonPackages = async (releases: Release[]) => {
             metadataText,
             "utf-8"
           );
-          await fs.promises.unlink(`./cache/${name}`);
+          await fs.promises.unlink(`./cache/${name}`).catch(() => undefined);
           console.log(`Saved metadata for ${name}`);
         }
         const metadataLines = metadataText.split("\n");
