@@ -104,7 +104,7 @@ const getPythonPackages = async (releases: Release[]) => {
             });
             proc.on("close", () => {
               const hash = stdout.split(" ")[0];
-              if (!hash) throw new Error("invalid hash");
+              if (!hash) throw new Error(`invalid hash: ${stdout}`);
               resolve(hash);
             });
           });
