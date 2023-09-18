@@ -1,7 +1,7 @@
 import fs from "fs";
 import https from "https";
 import sha256 from "crypto-js/sha256";
-import { spawn } from "child_process";
+import { execSync, spawn } from "child_process";
 import { Octokit } from "octokit";
 import { Extract } from "unzipper";
 import xml from "xml-js";
@@ -96,18 +96,7 @@ const getPythonPackages = async (releases: Release[]) => {
           console.log(`Downloading ${name}`);
           await download(url, `./cache/${name}`);
           console.log(`Downloaded ${name}`);
-          hash = await new Promise<string>((resolve) => {
-            const proc = spawn("sha256sum", [`./cache/${name}`]);
-            let stdout = "";
-            proc.stdout.on("data", (data) => {
-              stdout += data;
-            });
-            proc.on("close", () => {
-              const hash = stdout.split(" ")[0];
-              if (!hash) throw new Error(`invalid hash: ${stdout}`);
-              resolve(hash);
-            });
-          });
+          hash = execSync(`sha256sum ./cache/${name}`).toString().split(" ")[0];
           await fs.promises.writeFile(`./cache/${name}.sha256`, hash, "utf-8");
           metadataText = await new Promise<string>((resolve) => {
             const strippedName = name.match(/^([^-]+-[^-]+)-.+\.whl$/)?.[1];
