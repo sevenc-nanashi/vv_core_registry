@@ -1,2 +1,0 @@
--i https://sevenc7c.com/vv_core_registry
-voicevox_core~=!{version}
