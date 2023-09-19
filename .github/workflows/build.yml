@@ -43,11 +43,6 @@ jobs:
       - name: Build
         run: |
           GITHUB_TOKEN="${{ github.token }}" pnpm build
-
-          sha256sum cache/java_packages-*.zip \
-              cache/java_packages-*/jp/hiroshiba/voicevoxcore/*/*/*.jar \
-              cache/java_packages-*/jp/hiroshiba/voicevoxcore/*/*/*.aar \
-              dist/jp/hiroshiba/voicevoxcore/*/*/*.jar dist/jp/hiroshiba/voicevoxcore/*/*/*.aar
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
