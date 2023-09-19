@@ -1,12 +1,13 @@
 import fs from "fs";
 import https from "https";
 import sha256 from "crypto-js/sha256";
-import { exec as execCb, spawn } from "child_process";
+import { exec as execCb } from "child_process";
 import { promisify } from "util";
 import { Octokit } from "octokit";
 import { Extract } from "unzipper";
 import xml from "xml-js";
 import { Endpoints } from "@octokit/types";
+import { IncomingMessage } from "http";
 
 const exec = promisify(execCb);
 
@@ -21,13 +22,12 @@ const javaVariants = [
 
 const download = async (url: string, path: string) => {
   await new Promise<void>((resolve) => {
-    const handle = (res) => {
+    const handle = (res: IncomingMessage) => {
       if (res.headers.location) {
         console.log(`-> ${res.headers.location}`);
         https.get(res.headers.location, handle);
       } else {
-        res.pipe(fs.createWriteStream(path));
-        res.on("end", () => resolve());
+        res.pipe(fs.createWriteStream(path)).on("finish", resolve);
       }
     };
     https.get(url, handle);
