@@ -39,7 +39,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ./cache
-          key: v4
+          key: v5
       - name: Build
         run: |
           GITHUB_TOKEN="${{ github.token }}" pnpm build
