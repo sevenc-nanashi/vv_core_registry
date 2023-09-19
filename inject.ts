@@ -4,7 +4,6 @@ import sha256 from "crypto-js/sha256";
 import { exec as execCb } from "child_process";
 import { promisify } from "util";
 import { Octokit } from "octokit";
-import { Extract } from "unzipper";
 import xml from "xml-js";
 import { Endpoints } from "@octokit/types";
 import { IncomingMessage } from "http";
@@ -207,17 +206,7 @@ const getJavaPackages = async (releases: Release[]) => {
       }
 
       console.log(`Extracting archive for ${version}`);
-      await new Promise<void>((resolve) => {
-        fs.createReadStream(`./cache/java_packages-${version}.zip`)
-          .pipe(
-            Extract({
-              path: `./cache/java_packages-${version}`,
-            })
-          )
-          .on("close", () => {
-            resolve();
-          });
-      });
+      await exec(`unzip -o ./cache/java_packages-${version}.zip -d ./cache/java_packages-${version}`);
       console.log(`Extracted archive for ${version}`);
     })
   );
