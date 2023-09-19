@@ -19,8 +19,8 @@ const javaVariants = [
   "voicevoxcore-android",
 ];
 
-const download = async (url: string, path: string) => {
-  await new Promise<void>((resolve) => {
+const download = (url: string, path: string) =>
+  new Promise<void>((resolve) => {
     const handle = (res: IncomingMessage) => {
       if (res.headers.location) {
         console.log(`-> ${res.headers.location}`);
@@ -31,8 +31,6 @@ const download = async (url: string, path: string) => {
     };
     https.get(url, handle);
   });
-};
-
 const getPythonPackages = async (releases: Release[]) => {
   const wheels: [url: string, name: string][] = [];
 
@@ -206,7 +204,9 @@ const getJavaPackages = async (releases: Release[]) => {
       }
 
       console.log(`Extracting archive for ${version}`);
-      await exec(`unzip -o ./cache/java_packages-${version}.zip -d ./cache/java_packages-${version}`);
+      await exec(
+        `unzip -o ./cache/java_packages-${version}.zip -d ./cache/java_packages-${version}`
+      );
       console.log(`Extracted archive for ${version}`);
     })
   );
