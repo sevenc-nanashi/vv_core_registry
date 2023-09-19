@@ -1,11 +1,14 @@
 import fs from "fs";
 import https from "https";
 import sha256 from "crypto-js/sha256";
-import { execSync, spawn } from "child_process";
+import { exec as execCb, spawn } from "child_process";
+import { promisify } from "util";
 import { Octokit } from "octokit";
 import { Extract } from "unzipper";
 import xml from "xml-js";
 import { Endpoints } from "@octokit/types";
+
+const exec = promisify(execCb);
 
 type Release =
   Endpoints["GET /repos/{owner}/{repo}/releases"]["response"]["data"][0];
@@ -96,27 +99,17 @@ const getPythonPackages = async (releases: Release[]) => {
           console.log(`Downloading ${name}`);
           await download(url, `./cache/${name}`);
           console.log(`Downloaded ${name}`);
-          hash = execSync(`sha256sum ./cache/${name}`).toString().split(" ")[0];
+          hash = await exec(`sha256sum ./cache/${name}`).then(
+            (res) => res.stdout.split(" ")[0]
+          );
           await fs.promises.writeFile(`./cache/${name}.sha256`, hash, "utf-8");
-          metadataText = await new Promise<string>((resolve) => {
-            const strippedName = name.match(/^([^-]+-[^-]+)-.+\.whl$/)?.[1];
-            if (!strippedName) throw new Error(`invalid wheel name: ${name}`);
+          const strippedName = name.match(/^([^-]+-[^-]+)-.+\.whl$/)?.[1];
+          if (!strippedName) throw new Error(`invalid wheel name: ${name}`);
 
-            const metadataPath = `${strippedName}.dist-info/METADATA`;
-            const proc = spawn("unzip", [
-              "-p",
-              `./cache/${name}`,
-              metadataPath,
-            ]);
-            let stdout = "";
-            proc.stdout.on("data", (data) => {
-              stdout += data;
-            });
-
-            proc.on("close", () => {
-              resolve(stdout);
-            });
-          });
+          const metadataPath = `${strippedName}.dist-info/METADATA`;
+          metadataText = await exec(
+            `unzip -p ./cache/${name} ${metadataPath}`
+          ).then((res) => res.stdout);
           await fs.promises.writeFile(
             `./cache/${name}.metadata`,
             metadataText,
