@@ -13,9 +13,9 @@ const exec = promisify(execCb);
 type Release =
   Endpoints["GET /repos/{owner}/{repo}/releases"]["response"]["data"][0];
 const javaVariants = [
-  "voicevoxcore",
-  "voicevoxcore-cuda",
-  "voicevoxcore-directml",
+  // "voicevoxcore",
+  // "voicevoxcore-cuda",
+  // "voicevoxcore-directml",
   "voicevoxcore-android",
 ];
 
@@ -295,7 +295,7 @@ const getJavaPackages = async (releases: Release[]) => {
   const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
   const releases = await octokit.rest.repos
     .listReleases({
-      owner: "sevenc-nanashi",
+      owner: "voicevox",
       repo: "voicevox_core",
     })
     .then((res) => res.data.filter((release) => !release.draft));
